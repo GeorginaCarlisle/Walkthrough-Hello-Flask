@@ -1,20 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>About page</h2>
+
+    <h2>{{ page_title }}</h2>
     <p>Thorin and Company were a group of thirteen Dwarves, the Wizard Gandalf, and the Hobbit Bilbo Baggins, led by Thorin
         II in TA 2941. Their purpose was to regain the lost Dwarven kingdom of the Lonely Mountain from the dragon Smaug.
     </p>
 
-    <div class="row featurette">
-        <div class="col-md-7">
-            <h3>Thorin Oakenshield</h3>
-            <p>"I would take each and every one of these dwarves over an army of the Iron Hills. For when I called upon them they answered. Loyalty. Honor. A Willing heart. I can ask no more than that. "
-                —Thorin to Balin</p>
-            <p></p>
+    {% for member in company %}
+
+        <div class="row featurette">
+
+            {% if loop.index % 2 != 0 %}
+
+                <div class="col-md-7">
+                    <h3><a href="/about/{{ member.url }}">{{ loop.index }}. {{ member.name }}</a></h3>
+                    <p>{{ member.description }}</p>
+                </div>
+                <div class="col-md-5">
+                    <img src="{{ member.image_source }}" alt="" class="featurette-image image-responsive">
+                </div>
+
+            {% else %}
+
+                <div class="col-md-5">
+                    <img src="{{ member.image_source }}" alt="" class="featurette-image image-responsive">
+                </div>
+                <div class="col-md-7">
+                    <h3><a href="/about/{{ member.url }}">{{ loop.index }}. {{ member.name }}</a></h3>
+                    <p>{{ member.description }}</p>
+                </div>
+
+            {% endif %}
         </div>
-        <div class="col-md-5">
-            <img src="https://middle-earth-film-saga.fandom.com/wiki/Thorin_Oakenshield?file=Thorin-0.jpg" alt="">
-        </div>
-    </div>
+
+        {% if loop.index != loop.length %}
+
+            <hr class="featurette-divider">
+
+        {% endif %}
+
+    {% endfor %}
 
 {% endblock %}
